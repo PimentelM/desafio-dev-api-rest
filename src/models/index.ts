@@ -10,7 +10,7 @@ export interface ModelDefinition {
     options?: SchemaOptions,
 }
 
-
+// Lista com todos os models registrados no sistema
 let modelDefinitions: ModelDefinition[] = [
     Conta,
     Pessoa,
