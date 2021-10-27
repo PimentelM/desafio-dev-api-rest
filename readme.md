@@ -1,86 +1,34 @@
+# Sobre a arquitetura escolhida
 
-### Desafio
-Olá, queremos convidá-lo(a) a participar do nosso desafio de seleção.  Pronto(a) para participar? Seu trabalho será visto pelo nosso time e você receberá um feedback ao final sobre o que achamos do seu trabalho. Não é legal?
+Neste sistema estaremos utilizando a arquitetura em camadas, de forma à ter uma melhor organização do código.
 
-### Sobre a oportunidade 
-A vaga é para Desenvolvedor(a), temos vagas com diversos níveis de senioridade e para cada um deles utilizaremos critérios específicos considerando este aspecto, combinado? 
-Se você for aprovad(a) nesta etapa, será convidado para uma entrevista final.
+### Camada de API
 
-### Desafio Técnico
-  Nós trabalhamos com meios de pagamento e nada melhor do que um bom sistema para gestão de contas:
-  
-  - Pré-requisitos:
-    ```
-    * Desenvolver os recursos em API Rest que realizam operações bancárias com a entidade conta a seguir:
-    ```
-    | Contas | Tipo |
-    |-|-|
-    | idConta | Numérico |
-    | idPessoa | Numérico |
-    | saldo | Monetário |
-    | limiteSaqueDiario | Monetário |
-    | flagAtivo | Condicional |
-    | tipoConta | Numérido |
-    | dataCriacao | Data |
+Nesta camada, utilizaremos controllers para:
+* Fazer toda a interação com e abstração dos diferentes componentes do protocolo HTTP
+* Tratar e validar o input do usuário antes de passar para os serviços
+* Devolver a resposta no formato apropriado
 
-    ```
-    * Tabela de transações realizadas na conta
-    ```
-    | Transacoes | Tipo |
-    |-|-|
-    | idTransacao | Numérico |
-    | idConta | Numérico |
-    | valor | Monetário |
-    | dataTransacao | Data |
 
-    ```
-    * P.S.: Não é necessário realizar operações com a tabela pessoa, mas é necessária a criação da tabela para mapeamento da relação com a conta e enviar script de criação de pelo menos uma pessoa.
-    ```
+### Camada de Serviços
 
-    | Pessoas | Tipo |
-    |-|-|
-    | idPessoa | Numérico |
-    | nome | Texto |
-    | cpf | Texto |
-    | dataNascimento | Data |    
+Toda a lógica da aplicação será feita na camada de serviços, os serviços possuem acesso à outros serviços através do sistema de injeção de dependencias do NestJS.
 
-  - O que esperamos como escopo mínimo:
-    ```
-    * Implementar path que realiza a criação de uma conta;
-    * Implementar path que realiza operação de depósito em uma conta;
-    * Implementar path que realiza operação de consulta de saldo em determinada conta;
-    * Implementar path que realiza operação de saque em uma conta;
-    * Implementar path que realiza o bloqueio de uma conta;
-    * Implementar path que recupera o extrato de transações de uma conta;
-    ```
-  - O que será diferencial:
-    ```
-    * Implementar extrato por período;
-    * Elaborar manual de execução;
-    * Elaborar documentação;
-    * Elaborar testes.
-    ```
-    
-  - O que vamos avaliar:
-    ```
-    * Seu código; 
-    * Dockerfile ou docker-compose do serviço;
-    * Script de banco;
-    * Organização;
-    * Boas práticas;
-    * Diferenciais; 
-    ```
+### Camada de dados
 
-  - Teste para o time de Arquitetura? 
-    ```
-    * Baseado no que foi desenvolvido nos envie uma solução da Arquitetura utilizando serviços na nuvem como a AWS (diferencial), Azure e GCP;
-    * Junto com as instruções de execução, explique qual Design Pattern você utilizou e por que o escolheu para a sua solução.
-    ```
-  
+Esta camada será provida através de models que serão injetados nos serviços sob demanda. Os models são representações das entidades e todas as queries e operações relacionadas ao banco de dados podem ser feitas através deles.
 
-### Instruções
-      1. Faça o fork do desafio;
-      2. Crie um repositório privado no seu github para o projeto e adicione como colaborador o usuário wesleyjoliveira;
-      3. Desenvolva. Você terá 7 (sete) dias a partir da data do envio do desafio; 
-      4. Após concluir seu trabalho faça um push; 
-      5. Envie um e-mail à pessoa que está mantendo o contato com você durante o processo notificando a finalização do desafio para validação.
+
+
+# Sobre as tecnologias escolhidas
+
+Com a intenção de trabalhar com tecnologias que se integram de forma bastante harmônica, utilizaremos a seguinte stack em nosso projeto:
+
+* MongoDB: Banco de dados NoSQL orientado a objetos.
+* NestJS: Este é o nosso robusto framework arquitetural para NodeJS.
+* Jest: Biblioteca de testes automatizados em Javascript / Typescript.
+* Typescript: Linguagem de escolha para o projeto, por possuir suporte à tipagem estática.
+
+O framework escolhido oferece suporte à diversos design patterns, sendo o design pattern mais notável o uso de serviços como abstrações dos diferentes componentes lógicos do sistema.
+
+
