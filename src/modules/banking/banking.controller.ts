@@ -5,6 +5,7 @@ import {
     DepositarValorValidator,
     SacarValorValidator
 } from "./banking.controller.dtos";
+import * as mongoose from "mongoose";
 
 
 @Controller('banking')
@@ -33,6 +34,8 @@ export class BankingController {
     @Get(`/consultar-saldo/:contaId`)
     consultarSaldo(@Param(`contaId`) conta: string) {
         // Faz validação manual do id
+        let isAccountValid = mongoose.Types.ObjectId.isValid(conta);
+
 
     }
 
@@ -41,7 +44,9 @@ export class BankingController {
                  @Query(`inicioPeriodo`) inicioPeriodo: string,
                  @Query('fimPeriodo') filoPeriodo: string) {
         // Faz validação manual do id e das Date Time ISO strings.
-        
+        let isAccountValid = mongoose.Types.ObjectId.isValid(conta);
+
+
     }
 
 
