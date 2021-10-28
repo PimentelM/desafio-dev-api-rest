@@ -10,7 +10,7 @@ let model: ModelDefinition = {
     name: "Pessoa",
     schema: {
         nome: {type: String, required: true, trim: true},
-        cpf: {type: String, required: true, trim: true},
+        cpf: {type: String, required: true, trim: true, unique: true},
         dataNascimento: {type: Date, required: true},
     }
 }

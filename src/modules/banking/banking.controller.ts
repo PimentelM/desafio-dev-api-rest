@@ -8,14 +8,17 @@ import {
 import * as mongoose from "mongoose";
 import {ParseObjectIdPipe} from "../../pipes/ParseObjectIdPipe";
 import {ParseDateTimePipe} from "../../pipes/ParseDateTimePipe";
+import {BankingService} from "./banking.service";
 
 
 @Controller('management')
 export class BankingController {
 
+    constructor(private bankingService: BankingService){}
+
     @Post(`/criar-conta`)
     criarConta(@Body() {pessoa, limiteSaqueDiario, flagAtivo, tipoConta}: CriarContaValidator) {
-
+        return this.bankingService.criarConta(pessoa,limiteSaqueDiario,flagAtivo,tipoConta)
     }
 
     @Post(`/depositar-valor`)

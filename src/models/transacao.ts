@@ -10,7 +10,7 @@ let model: ModelDefinition = {
     name: "Transacao",
     schema: {
         conta: {ref: "Conta", type: Schema.Types.ObjectId},
-        valor: {type: Number, required: true, default: 0},
+        valor: {type: Number, required: true},
         dataTransacao: {
             type: Date,
             required: true,
