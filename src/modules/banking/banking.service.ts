@@ -13,7 +13,9 @@ export class BankingService {
     ) {}
 
     async criarConta(pessoa: string, limiteSaqueDiario : number, flagAtivo: boolean, tipoConta: number){
-        // Será possível criar uma quantidade indefinida de contas por pessoa.
+        // Inicialmente será possível criar apenas uma conta por pessoa
+        if(await this.contaModel.findOne({pessoa})) throw new BadRequestException(`A pessoa já possui uma conta.`)
+
         return await this.contaModel.create({
             pessoa,
             saldo: 0,
