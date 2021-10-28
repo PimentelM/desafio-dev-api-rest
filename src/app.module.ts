@@ -12,7 +12,7 @@ import {DatabaseModule} from "./modules/database";
             {
                 path: '/api',
                 children: [
-                    {path: '/bank', module: BankingModule},
+                    {path: '/banking', module: BankingModule},
                 ]
             }
         ])

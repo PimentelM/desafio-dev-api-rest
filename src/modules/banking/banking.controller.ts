@@ -6,9 +6,11 @@ import {
     SacarValorValidator
 } from "./banking.controller.dtos";
 import * as mongoose from "mongoose";
+import {ParseObjectIdPipe} from "../../pipes/ParseObjectIdPipe";
+import {ParseDateTimePipe} from "../../pipes/ParseDateTimePipe";
 
 
-@Controller('banking')
+@Controller('management')
 export class BankingController {
 
     @Post(`/criar-conta`)
@@ -32,19 +34,15 @@ export class BankingController {
     }
 
     @Get(`/consultar-saldo/:contaId`)
-    consultarSaldo(@Param(`contaId`) conta: string) {
-        // Faz validação manual do id
-        let isAccountValid = mongoose.Types.ObjectId.isValid(conta);
+    consultarSaldo(@Param(`contaId`, ParseObjectIdPipe) conta: string) {
 
 
     }
 
     @Get(`extrato-conta/:contaId`)
-    extratoConta(@Param(`contaId`) conta: string,
-                 @Query(`inicioPeriodo`) inicioPeriodo: string,
-                 @Query('fimPeriodo') filoPeriodo: string) {
-        // Faz validação manual do id e das Date Time ISO strings.
-        let isAccountValid = mongoose.Types.ObjectId.isValid(conta);
+    extratoConta(@Param(`contaId`, ParseObjectIdPipe) conta: string,
+                 @Query(`inicioPeriodo`, ParseDateTimePipe) inicioPeriodo: string,
+                 @Query('fimPeriodo', ParseDateTimePipe) fimPeriodo: string) {
 
 
     }
