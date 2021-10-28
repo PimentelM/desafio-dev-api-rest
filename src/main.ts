@@ -1,11 +1,9 @@
+require('dotenv').config()
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
 import {ValidationPipe} from "./pipes/ValidationPipe";
 
 async function bootstrap() {
-  // Carrega variáveis de ambiente especificadas no .env
-  require('dotenv').config()
-
   // Cria nova aplicação em NestJs
   const app = await NestFactory.create(AppModule);
 
@@ -15,4 +13,6 @@ async function bootstrap() {
   // Entra em listening mode
   await app.listen(3000);
 }
+
+
 bootstrap();
