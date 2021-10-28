@@ -23,7 +23,7 @@ export class BankingController {
 
     @Post(`/depositar-valor`)
     depositarValor(@Body() {conta, valor}: DepositarValorValidator) {
-
+        return this.bankingService.depositarValor(conta,valor)
     }
 
     @Post(`/sacar-valor`)
