@@ -16,9 +16,11 @@ export class ValidationPipe extends VP {
     const errors = await validate(object);
     if (errors.length > 0) {
       throw new BadRequestException({
-        error: 'invalid-data',
-        message: Object.entries(errors[0].constraints)[0][1]
-      });
+        statusCode: 400,
+        error: "ValidationError",
+        message: "Erro de validação, consulte a documentação da API",
+        data: Object.entries(errors[0].constraints)[0][1]
+      })
     }
     return value;
   }

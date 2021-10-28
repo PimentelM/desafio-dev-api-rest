@@ -28,7 +28,7 @@ export class BankingController {
 
     @Post(`/sacar-valor`)
     sacarValor(@Body() {conta, valor}: SacarValorValidator) {
-
+        return this.bankingService.sacarValor(conta,valor)
     }
 
     @Post(`/bloquear-conta`)
