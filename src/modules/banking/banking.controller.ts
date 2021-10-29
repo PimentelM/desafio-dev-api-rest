@@ -4,7 +4,7 @@ import {
     CriarContaValidator,
     DepositarValorValidator,
     SacarValorValidator
-} from "./banking.controller.dtos";
+} from "./banking.controller.validators";
 import * as mongoose from "mongoose";
 import {ParseObjectIdPipe} from "../../pipes/ParseObjectIdPipe";
 import {ParseDateTimePipe} from "../../pipes/ParseDateTimePipe";

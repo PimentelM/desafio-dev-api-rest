@@ -6,7 +6,7 @@ Considerei fazer a API utilizando apenas o Express.js, porém esta seria minha e
 
 Dividi o sistema em três camadas principais que serão descritas à seguir.
 
-### Camada de API
+### Camada de API ( Presentation Layer )
 
 Nesta camada, utilizaremos controllers para:
 * Fazer toda a interação com e abstração dos diferentes componentes do protocolo HTTP
@@ -16,7 +16,7 @@ Nesta camada, utilizaremos controllers para:
 
 Todas as requisições que fazem algum tipo de alteração no estado da aplicação, ou no banco de dados, utilizarão o método `POST`, enquanto todas as requisições de consulta utilizarão o método `GET`
 
-### Camada de Serviços
+### Camada de Serviços ( Business Logic Layer )
 
 Toda a lógica da aplicação será feita na camada de serviços, os serviços possuem acesso à outros serviços através do sistema de injeção de dependencias do NestJS.
 
@@ -44,18 +44,11 @@ Faremos a validação do tipo do dado e da presença de campos obrigatórios.
 
 Utilizaremos a biblioteca `class-validator`  e o recurso de `Pipes` do NestJs para validar o input em nossos controllers.
 
-Como toda requisição do tipo `POST` tem a opção de fazer uso de um DTO, que é uma classe do tipo "Data to Object", faremos junto com a conversão de dado para objeto uma validação, de forma que antes mesmo da informação ser passada para o controller, ela já será pré processada e pré validada.
-
-Nossa convenção de nomeação para os DTOS será a seguinte:
-
-`<NomeDoEndpoint>Dto`: Caso o DTO não possua validação de dados.
-`<NomeDoEndpoint>Validator`: Caso o DTO possua validação de dados.
-
-Um filtro de exceções será adicionado para retornar uma resposta apropriada ao usuário quando uma classe não for aceita pelo validador. 
+Requisições com corpo da requisição terão seus dados validados por "validators" definidos em um arquivo separado, eles utilizam os recursos da biblioteca `class-validator` e um pipe de validação global para validadores de classe.
 
 Retornaremos um erro `400 Bad Request` na requisição quando um input não estiver no formato correto.
 
-DTOs serão utilizados em requisições HTTP do tipo `POST`, e Pipes de validação serão utilizados para requisições do tipo `GET`
+Class validators serão utilizados para o corpo da requisição em requisições HTTP do tipo `POST`, e Pipes de validação serão utilizados para parâmetros e queries.
 
 
 ### Validação de dados nos Serviços
