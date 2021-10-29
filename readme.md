@@ -20,11 +20,12 @@ Todas as requisições que fazem algum tipo de alteração no estado da aplicaç
 
 Toda a lógica da aplicação será feita na camada de serviços, os serviços possuem acesso à outros serviços através do sistema de injeção de dependencias do NestJS.
 
-### Camada de dados
+### Camada de dados ( Persistence Layer)
 
-Esta camada será provida através de models que serão injetados nos serviços sob demanda. Os models são representações das entidades e todas as queries e operações relacionadas ao banco de dados podem ser feitas através deles.
+Esta camada será provida através de repositórios, que se comunicarão com o banco de dados através models que serão injetados nos serviços sob demanda. 
+Os models são representações das entidades e todas as queries e operações relacionadas ao banco de dados podem ser feitas através deles.
 
-
+A ideia por trás do uso de repositórios é que este padrão de design facilita o ato de testar a camada de regras de negócio, sem que precisemos fazer o setup do banco de dados em nossos testes unitários.
 
 # Sobre as tecnologias escolhidas
 
