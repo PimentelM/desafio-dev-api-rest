@@ -1,6 +1,6 @@
-import { Injectable, ArgumentMetadata, BadRequestException, ValidationPipe as VP } from '@nestjs/common';
-import { validate } from 'class-validator';
-import { plainToClass } from 'class-transformer';
+import {ArgumentMetadata, BadRequestException, Injectable, ValidationPipe as VP} from '@nestjs/common';
+import {validate} from 'class-validator';
+import {plainToClass} from 'class-transformer';
 
 @Injectable()
 export class ValidationPipe extends VP {
@@ -26,7 +26,7 @@ export class ValidationPipe extends VP {
   }
 
   static toValidate(metatype: Function): boolean {
-    const types: Function[] = [String, Boolean, Number, Array, Object];
-    return !types.includes(metatype);
+    const types: Function[] = [String, Boolean, Number, Array, Object, Date];
+    return !types.includes(metatype)
   }
 }

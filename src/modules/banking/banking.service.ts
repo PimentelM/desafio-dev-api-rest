@@ -134,5 +134,50 @@ export class BankingService {
     }
 
 
+    async bloquearconta(contaId: string){
+        // Faz verificações sobre a conta
+        let conta = await this.contaModel.findOne({_id: contaId})
+        if(!conta) throw new BadRequestException("Conta inexistente")
+
+        await this.contaModel.findOneAndUpdate({_id: contaId}, { $set : { flagAtivo: false}})
+    }
+
+
+    async consultarSaldo(contaId: string){
+        // Faz verificações sobre a conta
+        let conta = await this.contaModel.findOne({_id: contaId})
+        if(!conta) throw new BadRequestException("Conta inexistente")
+
+
+        return conta.saldo
+    }
+
+
+    async obterExtrato(contaId: string,periodo: {inicio: Date, fim: Date}){
+        // Faz verificações sobre a conta
+        let conta = await this.contaModel.findOne({_id: contaId})
+        if(!conta) throw new BadRequestException("Conta inexistente")
+
+
+        let conditions : any[] = [{conta: contaId}]
+
+        if(periodo.inicio){
+            conditions.push({
+                dataTransacao : {$gte : periodo.inicio}
+            })
+        }
+
+        if(periodo.fim){
+            conditions.push({
+                dataTransacao : {$lte: periodo.fim}
+            })
+        }
+
+        return this.transacaoModel.find({
+           $and: conditions
+        })
+
+    }
+
 
 }

@@ -1,8 +1,10 @@
 import { PipeTransform, Injectable, BadRequestException } from '@nestjs/common';
 
 @Injectable()
-export class ParseDateTimePipe implements PipeTransform<string, Date> {
-    transform(value: string): Date {
+export class ParseDateTimePipe implements PipeTransform<any, Date> {
+    transform(value?: any): Date {
+        if(value === undefined) return undefined
+
         const isValidDate = this.isDate(value)
 
         if (!isValidDate) {

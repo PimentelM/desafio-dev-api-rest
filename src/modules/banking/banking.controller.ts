@@ -1,14 +1,13 @@
 import {Body, Controller, Get, Param, Post, Query} from '@nestjs/common';
+import {ParseObjectIdPipe} from "../../pipes/ParseObjectIdPipe";
+import {ParseDateTimePipe} from "../../pipes/ParseDateTimePipe";
+import {BankingService} from "./banking.service";
 import {
     BloquearContaValidator,
     CriarContaValidator,
     DepositarValorValidator,
     SacarValorValidator
 } from "./banking.controller.validators";
-import * as mongoose from "mongoose";
-import {ParseObjectIdPipe} from "../../pipes/ParseObjectIdPipe";
-import {ParseDateTimePipe} from "../../pipes/ParseDateTimePipe";
-import {BankingService} from "./banking.service";
 
 
 @Controller('management')
@@ -33,20 +32,23 @@ export class BankingController {
 
     @Post(`/bloquear-conta`)
     bloquearConta(@Body() {conta} : BloquearContaValidator ) {
-
+        return this.bankingService.bloquearconta(conta)
     }
 
     @Get(`/consultar-saldo/:contaId`)
     consultarSaldo(@Param(`contaId`, ParseObjectIdPipe) conta: string) {
-
-
+        return this.bankingService.consultarSaldo(conta)
     }
 
-    @Get(`extrato-conta/:contaId`)
+    @Get(`/extrato-conta/:contaId`)
     extratoConta(@Param(`contaId`, ParseObjectIdPipe) conta: string,
-                 @Query(`inicioPeriodo`, ParseDateTimePipe) inicioPeriodo: string,
-                 @Query('fimPeriodo', ParseDateTimePipe) fimPeriodo: string) {
+                 @Query(`inicioPeriodo`, ParseDateTimePipe) inicioPeriodo?: Date,
+                 @Query('fimPeriodo', ParseDateTimePipe) fimPeriodo?: Date) {
 
+        return this.bankingService.obterExtrato(conta,{
+            inicio: inicioPeriodo,
+            fim: fimPeriodo
+        })
 
     }
 
