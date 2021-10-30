@@ -187,5 +187,60 @@ describe('ContaController (e2e)', () => {
         });
     })
 
-    
+    describe(`/criar`, () => {
+
+        it(`Deve ser possível criar uma conta`, async ()=>{
+
+            let criarContaInput = {
+                pessoa: `112233445566112233445566`,
+                limiteSaqueDiario: 500,
+                flagAtivo: true,
+                tipoConta: 1,
+            }
+
+            let response = await request(httpServer).post('/api/banking/conta/criar').send(criarContaInput)
+
+            expect(response.status).toBe(201)
+
+            expect(response.body).toMatchObject(criarContaInput)
+
+            expect(response.body._id).toBeDefined()
+
+            let contaNoBancoDeDados = (await contaModel.findOne({_id: response.body._id})).toJSON()
+
+            expect(contaNoBancoDeDados).toMatchObject(criarContaInput)
+
+
+        })
+
+        it(`Não deve ser possível criar mais de uma conta por pessoa`,  async()=>{
+
+            let criarContaInput1 = {
+                pessoa: `112233445566112233445566`,
+                limiteSaqueDiario: 500,
+                flagAtivo: true,
+                tipoConta: 1,
+            }
+
+            let criarContaInput2 = {
+                pessoa: `112233445566112233445566`,
+                limiteSaqueDiario: 500,
+                flagAtivo: true,
+                tipoConta: 1,
+            }
+
+            let response1 = await request(httpServer).post('/api/banking/conta/criar').send(criarContaInput1)
+
+            expect(response1.status).toBe(201)
+
+            let response2 = await request(httpServer).post('/api/banking/conta/criar').send(criarContaInput2)
+
+            expect(response2.status).toBe(400)
+
+            expect(response2.body).toMatchObject({message: "A pessoa já possui uma conta."})
+
+
+        })
+    })
+
 });
