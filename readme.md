@@ -10,8 +10,25 @@ Esta é uma API ilustrativa que foi implementada como uma forma de demonstrar em
 ![Yarn](https://img.shields.io/badge/yarn-%232C8EBB.svg?style=for-the-badge&logo=yarn&logoColor=white)
 
 
-<!-- START doctoc -->
-<!-- END doctoc -->
+<!-- START doctoc generated TOC please keep comment here to allow auto update -->
+<!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
+Tabela de conteúdos
+
+- [Instruções de uso](#instru%C3%A7%C3%B5es-de-uso)
+    - [Instalação](#instala%C3%A7%C3%A3o)
+      - [Observações sobre o banco de dados](#observa%C3%A7%C3%B5es-sobre-o-banco-de-dados)
+    - [Uso da API](#uso-da-api)
+- [Sobre a arquitetura escolhida](#sobre-a-arquitetura-escolhida)
+    - [Camada de API ( Presentation Layer )](#camada-de-api--presentation-layer-)
+    - [Camada de Serviços ( Business Logic Layer )](#camada-de-servi%C3%A7os--business-logic-layer-)
+    - [Camada de Repositórios ( Persistence Layer)](#camada-de-reposit%C3%B3rios--persistence-layer)
+- [Sobre as tecnologias escolhidas](#sobre-as-tecnologias-escolhidas)
+    - [Validação de dados nos controllers](#valida%C3%A7%C3%A3o-de-dados-nos-controllers)
+    - [Validação de dados nos Serviços](#valida%C3%A7%C3%A3o-de-dados-nos-servi%C3%A7os)
+- [Testes](#testes)
+- [Estrutura de arquivos](#estrutura-de-arquivos)
+
+<!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
 
 # Instruções de uso
