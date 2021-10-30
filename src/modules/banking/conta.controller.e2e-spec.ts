@@ -83,19 +83,14 @@ describe('ContaController (e2e)', () => {
 
         it('O saldo deve ser o mesmo registrado no banco de dados', async () => {
             // Registra uma conta mock
-            let {_id}: any = await contaModel.create({
-                pessoa: `112233445566112233445566`,
-                saldo: 1000,
-                limiteSaqueDiario: 500,
-                flagAtivo: true,
-                tipoConta: 1,
-            })
+            let mockData = getMockConta()
+            let {_id}: any = await contaModel.create(mockData)
 
 
             let response = await request(httpServer).get(`/api/banking/conta/saldo/${_id}`)
 
             expect(response.status).toBe(200)
-            expect(response.body.saldo).toBe(1000)
+            expect(response.body.saldo).toBe(mockData.saldo)
 
         });
 
@@ -206,7 +201,9 @@ describe('ContaController (e2e)', () => {
 
             expect(response.body._id).toBeDefined()
 
-            let contaNoBancoDeDados = (await contaModel.findOne({_id: response.body._id})).toJSON()
+            let contaNoBancoDeDados = (await contaModel.findOne({_id: response.body._id})).toObject()
+
+            contaNoBancoDeDados.pessoa = contaNoBancoDeDados.pessoa.toString()
 
             expect(contaNoBancoDeDados).toMatchObject(criarContaInput)
 
@@ -215,25 +212,18 @@ describe('ContaController (e2e)', () => {
 
         it(`Não deve ser possível criar mais de uma conta por pessoa`,  async()=>{
 
-            let criarContaInput1 = {
+            let criarContaInput = {
                 pessoa: `112233445566112233445566`,
                 limiteSaqueDiario: 500,
                 flagAtivo: true,
                 tipoConta: 1,
             }
 
-            let criarContaInput2 = {
-                pessoa: `112233445566112233445566`,
-                limiteSaqueDiario: 500,
-                flagAtivo: true,
-                tipoConta: 1,
-            }
-
-            let response1 = await request(httpServer).post('/api/banking/conta/criar').send(criarContaInput1)
+            let response1 = await request(httpServer).post('/api/banking/conta/criar').send(criarContaInput)
 
             expect(response1.status).toBe(201)
 
-            let response2 = await request(httpServer).post('/api/banking/conta/criar').send(criarContaInput2)
+            let response2 = await request(httpServer).post('/api/banking/conta/criar').send(criarContaInput)
 
             expect(response2.status).toBe(400)
 
