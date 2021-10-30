@@ -1,4 +1,4 @@
-require('dotenv').config({path: '.env.test.with.cloud.db'});
+require('dotenv').config({path: '.env.test'});
 import {Model} from "mongoose";
 import {Test, TestingModule} from '@nestjs/testing';
 import {INestApplication} from '@nestjs/common';

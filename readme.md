@@ -1,7 +1,8 @@
 # Desafio Api REST
 
-Esta é uma API ilustrativa que foi implementada como uma forma de demonstrar em termos gerais qual é o meu estilo de desenvolvimento de no presente momento. 
+Esta é uma API ilustrativa que foi implementada como uma forma de demonstrar em termos gerais qual é o meu estilo de desenvolvimento no presente momento. 
 
+![Jest](https://img.shields.io/badge/-jest-%23C21325?style=for-the-badge&logo=jest&logoColor=white)
 ![NodeJS](https://img.shields.io/badge/node.js-6DA55F?style=for-the-badge&logo=node.js&logoColor=white)
 ![TypeScript](https://img.shields.io/badge/typescript-%23007ACC.svg?style=for-the-badge&logo=typescript&logoColor=white)
 ![NestJS](https://img.shields.io/badge/nestjs-%23E0234E.svg?style=for-the-badge&logo=nestjs&logoColor=white)
@@ -9,8 +10,7 @@ Esta é uma API ilustrativa que foi implementada como uma forma de demonstrar em
 ![Yarn](https://img.shields.io/badge/yarn-%232C8EBB.svg?style=for-the-badge&logo=yarn&logoColor=white)
 
 
-
-
+---
 # Como usar
 
 ### Instalação
@@ -26,7 +26,7 @@ yarn install
 yarn start
 ```
 
-Caso prefira utilizar a versão em docker, basta ter em seu computador o Docker instalado e rodar o comando `docker-compose up`
+Caso prefira utilizar a versão em docker, basta ter em seu computador o Docker instalado e rodar o comando `docker-compose up` na pasta do projeto
 
 
 ```bash
@@ -34,23 +34,25 @@ git clone https://github.com/PimentelM/desafio-dev-api-rest
 cd ./desafio-dev-api-rest
 docker-compose up
 ```
+No final do proesso, será disponibilizo um servidor HTTP na porta `3000` do `localhost`.
 
 
-No final do proesso, será disponibilizo um servidor HTTP na porta 3000 do localhost.
+#### Observações sobre o banco de dados
+Caso deseje especificar a string de conexão com o banco de dados, utilize a variável de ambiente `db_conn` seguindo o modelo presente no .env.example. 
 
-# Uso
+Caso a string de conexão não seja especificada o sistema utilizará uma instância in-memory do banco de dados ou a instância provida pelo docker-compose caso ele seja utilizado.
+ 
+### Uso da API
 
-Você poderá utilizar a API através do painel de requisições disponibilizado pelo `Swagger` ( ou um client HTTP de sua preferência), lá também será possível encontrar as especificações de cada endpoint e quais tipos de dados eles aceitam e esperam.
+Você poderá utilizar esta API através do painel de requisições disponibilizado pelo `Swagger` ou um client HTTP de sua preferência.
+
+Todas as especificações referentes à API estarão disponíveis no painel do `Swagger` uma vez que a API estiver rodando.
 
 [Imagem do painel]
 
-Uma vez que a API estiver rodando, o painel poderá ser encontrado no seguinte caminho: http://localhost:3000/api
+O Painel poderá ser acessado através da seguinte URL: `http://localhost:3000/api`
 
-
-
-
-
-
+---
 
 # Sobre a arquitetura escolhida
 
@@ -63,7 +65,7 @@ Dividi o sistema em três camadas principais que serão descritas à seguir.
 ### Camada de API ( Presentation Layer )
 
 Nesta camada, utilizaremos controllers para:
-* Fazer toda a interação com e abstração dos diferentes componentes do protocolo HTTP
+* Lidar com as requisições HTTP, traduzindo-as em diferentes campos acessíveis pelos métodos do controller.
 * Tratar e validar o input do usuário antes de passar para os serviços
 * Devolver a resposta no formato apropriado
 * Responder com erros apropriados caso o servidor não lide bem com o input do usuário ou caso ele seja inválido.
@@ -72,11 +74,13 @@ Todas as requisições que fazem algum tipo de alteração no estado da aplicaç
 
 ### Camada de Serviços ( Business Logic Layer )
 
-Toda a lógica da aplicação será feita na camada de serviços, os serviços possuem acesso à outros serviços através do sistema de injeção de dependencias do NestJS.
+Toda a lógica da aplicação será feita na camada de serviços, os serviços possuem acesso à outros providers através do sistema de injeção de dependencias do NestJS.
 
-### Camada de dados
+### Camada de Repositórios ( Persistence Layer)
 
-Esta camada será provida através de models que serão injetados nos serviços sob demanda. Os models são representações das entidades e todas as queries e operações relacionadas ao banco de dados podem ser feitas através deles.
+Usamos esta camada para abstrair o acesso ao banco de dados através de um padrão de design chamado "Repositório". Onde poderemos escrever testes unitários para as regras de negócio dos serviços sem termos que instanciar o banco de dados.
+
+O acesso ao banco de dados será disponibilizado através de models que serão injetados nos repositórios sob demanda. Os models são representações das entidades e todas as queries e operações relacionadas ao banco de dados podem ser feitas através deles.
 
 
 # Sobre as tecnologias escolhidas
@@ -106,7 +110,7 @@ Class validators serão utilizados para o corpo da requisição em requisições
 
 ### Validação de dados nos Serviços
 
-Por ser uma verificação de regra de negócio, a verificação será feita manualmente, e sempre que algum input for inválido, lançaremos uma Exceção que será captada pelo NestJs e uma resposta apropriada será enviada ao usuário.
+Por ser uma verificação de regra de negócio, a verificação será feita com código, tradicionalmente, e sempre que algum input for inválido, lançaremos uma Exceção que será captada pelo NestJs e uma resposta apropriada será enviada ao usuário.
 
 Por via de regra usaremos a exceção associada ao código de status HTTP "BadRequest", que já possui um handler nativo do Nest, mas caso seja necessário abstrair totalmente algum serviço da camada de API então a classe do erro seria substituida por uma classe agnóstica e um handler para ela seria criada.
 
@@ -117,6 +121,3 @@ Por via de regra usaremos a exceção associada ao código de status HTTP "BadRe
 Dado o escopo do projeto, criaremos testes end to end para validar os principais pontos da aplicação e alguns testes unitários para ilustrar como seria feita a implementação deles.
 
 Para fazermos os testes unitários será necessário abstrair o acesso à camada de dados através de um design pattern chamado `Repositório`, que será basicamente um provider responsável por trazer e levar os dados para o banco de dados.
-
-De forma ilustrativa faremos isso em apenas dois métodos do serviço conta e usaremos mocks para importar o serviço sem injetar os models do banco de dados dos quais ele depende.
-
