@@ -1,5 +1,3 @@
-import {Schema} from "mongoose";
-
 export function getMockConta(override = {}){
     return {
         pessoa: `112233445566112233445566`,
@@ -24,4 +22,26 @@ export  function getMockPessoa(override = {}){
 
 export function getRandomMongoId(){
     return [...Array(24)].map(() => Math.floor(Math.random() * 16).toString(16)).join('')
+}
+
+function randomDate(start, end) {
+    if(typeof start === 'string'){
+        start = new Date(start)
+    }
+
+    if(typeof end === 'string'){
+        end = new Date(end)
+    }
+    return new Date(start.getTime() + Math.random() * (end.getTime() - start.getTime())).toISOString();
+}
+
+export function getRandomMockTransactions(contaId, quantity = 6){
+
+    return [...Array(quantity)].map(x => ({
+        conta: contaId,
+        valor: Math.floor(Math.random() * 100),
+        dataTransacao: randomDate(`2010-01-01`, `2021-10-30`)
+
+    })).sort((a, b) => new Date(a.dataTransacao).getTime() - new Date(b.dataTransacao).getTime())
+
 }

@@ -15,6 +15,23 @@ export class ContaController {
 
     constructor(private contaService: ContaService){}
 
+    @Get(`/saldo/:contaId`)
+    saldoConta(@Param(`contaId`, ParseObjectIdPipe) conta: string) {
+        return this.contaService.consultarSaldo(conta)
+    }
+
+    @Get(`/extrato/:contaId`)
+    extratoConta(@Param(`contaId`, ParseObjectIdPipe) conta: string,
+                 @Query(`inicioPeriodo`, ParseDateTimePipe) inicioPeriodo?: Date,
+                 @Query('fimPeriodo', ParseDateTimePipe) fimPeriodo?: Date) {
+
+        return this.contaService.obterExtrato(conta,{
+            inicio: inicioPeriodo,
+            fim: fimPeriodo
+        })
+
+    }
+
     @Post(`/criar`)
     criarConta(@Body() {pessoa, limiteSaqueDiario, flagAtivo, tipoConta}: CriarContaValidator) {
         return this.contaService.criarConta(pessoa,limiteSaqueDiario,flagAtivo,tipoConta)
@@ -33,23 +50,6 @@ export class ContaController {
     @Post(`/bloquear`)
     bloquearConta(@Body() {conta} : BloquearContaValidator ) {
         return this.contaService.bloquearconta(conta)
-    }
-
-    @Get(`/saldo/:contaId`)
-    saldoConta(@Param(`contaId`, ParseObjectIdPipe) conta: string) {
-        return this.contaService.consultarSaldo(conta)
-    }
-
-    @Get(`/extrato/:contaId`)
-    extratoConta(@Param(`contaId`, ParseObjectIdPipe) conta: string,
-                 @Query(`inicioPeriodo`, ParseDateTimePipe) inicioPeriodo?: Date,
-                 @Query('fimPeriodo', ParseDateTimePipe) fimPeriodo?: Date) {
-
-        return this.contaService.obterExtrato(conta,{
-            inicio: inicioPeriodo,
-            fim: fimPeriodo
-        })
-
     }
 
 

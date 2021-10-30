@@ -1,4 +1,4 @@
-require('dotenv').config({ path:  '.env.test.with.cloud.db' });
+require('dotenv').config({path: '.env.test.with.cloud.db'});
 import {Connection, Model} from "mongoose";
 import {DatabaseService} from "../../database/database.service";
 import {Test, TestingModule} from '@nestjs/testing';
@@ -7,8 +7,9 @@ import * as request from 'supertest';
 import {AppModule} from '../../../app.module';
 import {MongoMemoryServer} from 'mongodb-memory-server';
 import {setupApp} from "../../../main";
-import {getMockConta, getRandomMongoId} from "./mocks";
+import {getMockConta, getRandomMockTransactions, getRandomMongoId} from "./mocks";
 import {getModelToken} from "@nestjs/mongoose";
+import {sortBy} from "lodash"
 
 describe('ContaController (e2e)', () => {
     let app: INestApplication;
@@ -24,14 +25,14 @@ describe('ContaController (e2e)', () => {
     beforeAll(async () => {
 
         // Configura a instancia do banco de dados de teste
-        if(process.env.use_in_memory_mongo)
-        mongod = await MongoMemoryServer.create(
-            {
-                instance: {
-                    dbName: "test",
-                    port: 6733
-                }
-            })
+        if (process.env.use_in_memory_mongo)
+            mongod = await MongoMemoryServer.create(
+                {
+                    instance: {
+                        dbName: "test",
+                        port: 6733
+                    }
+                })
 
         // Cria módulo de testes
         const moduleFixture: TestingModule = await Test.createTestingModule({
@@ -64,11 +65,11 @@ describe('ContaController (e2e)', () => {
     });
 
     afterAll(async () => {
-        if(process.env.use_in_memory_mongo)
-        await mongod.stop();
+        if (process.env.use_in_memory_mongo)
+            await mongod.stop();
     })
 
-    describe("Obter Saldo", () => {
+    describe("/saldo/:contaid", () => {
 
         it('Não deve ser possível obter saldo de conta inexistente', async () => {
             let response = await request(httpServer).get('/api/banking/conta/saldo/112233445566112233445566')
@@ -83,19 +84,104 @@ describe('ContaController (e2e)', () => {
 
         it('O saldo deve ser o mesmo registrado no banco de dados', async () => {
             // Registra um usuário mock
-            let {_id} : any = await contaModel.create(getMockConta())
+            let {_id}: any = await contaModel.create(getMockConta())
 
 
             let response = await request(httpServer).get(`/api/banking/conta/saldo/${_id}`)
 
             expect(response.status).toBe(200)
-            expect(response.body).toMatchObject({saldo: getMockConta().saldo } )
+            expect(response.body).toMatchObject({saldo: getMockConta().saldo})
 
         });
 
     })
 
 
+    describe(`/extrato/:contaId`, () => {
+
+        it('Não deve ser possível obter extrato de conta inexistente', async () => {
+            let response = await request(httpServer).get('/api/banking/conta/extrato/112233445566112233445566')
+
+            expect(response.status).toBe(400)
+            expect(response.body).toMatchObject({
+                error: "Bad Request"
+            })
+
+        });
+
+
+        it('Deve ser possível obter todo o extrato', async () => {
+            // Cria uma conta mock
+            let conta = await contaModel.create(getMockConta())
+
+            // Adiciona várias transaçoes mock à conta
+            let transactions = getRandomMockTransactions(conta._id)
+            await transacaoModel.create(transactions)
+
+
+            let response = await request(httpServer).get(`/api/banking/conta/extrato/${conta._id}`)
+
+
+            expect(response.status).toBe(200)
+            expect(sortBy(response.body, "dataTransacao")).toMatchObject(transactions)
+
+        });
+
+
+        it('Deve ser possível filtrar a obtenção do extrato', async () => {
+            // Cria uma conta mock
+            let conta = await contaModel.create(getMockConta())
+
+            // Adiciona várias transaçoes mock à conta
+            let transactions = [{
+                "conta": `${conta._id}`,
+                "valor": 74,
+                "dataTransacao": "2011-07-03T16:47:48.104Z"
+            }, {
+                "conta": `${conta._id}`,
+                "valor": 48,
+                "dataTransacao": "2013-11-18T11:45:26.232Z"
+            }, {
+                "conta": `${conta._id}`,
+                "valor": 86,
+                "dataTransacao": "2014-03-16T13:30:53.331Z"
+            }]
+            await transacaoModel.create(transactions)
+
+
+            // Filtra começando pela data do meio
+            let response = await request(httpServer).get(`/api/banking/conta/extrato/${conta._id}?inicioPeriodo=2013-11-18T11:45:26.232Z`)
+
+
+            let expected = [{
+                "conta": `${conta._id}`,
+                "valor": 48,
+                "dataTransacao": "2013-11-18T11:45:26.232Z"
+            }, {
+                "conta": `${conta._id}`,
+                "valor": 86,
+                "dataTransacao": "2014-03-16T13:30:53.331Z"
+            }]
+
+            expect(response.status).toBe(200)
+            expect(sortBy(response.body, "dataTransacao")).toMatchObject(expected)
+
+
+            // Repete o filtro anterior e adiciona fim do periodo como sendo 16/12/2013
+            response = await request(httpServer).get(`/api/banking/conta/extrato/${conta._id}?inicioPeriodo=2013-11-18T11:45:26.232Z&fimPeriodo=2013-12-16T12:30:53.331Z`)
+
+
+            expected = [{
+                "conta": `${conta._id}`,
+                "valor": 48,
+                "dataTransacao": "2013-11-18T11:45:26.232Z"
+            }]
+
+            expect(response.status).toBe(200)
+            expect(sortBy(response.body, "dataTransacao")).toMatchObject(expected)
+
+        });
+    })
 
 
 });
