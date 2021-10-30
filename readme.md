@@ -10,7 +10,6 @@ Esta é uma API ilustrativa que foi implementada como uma forma de demonstrar em
 ![Yarn](https://img.shields.io/badge/yarn-%232C8EBB.svg?style=for-the-badge&logo=yarn&logoColor=white)
 
 
----
 # Como usar
 
 ### Instalação
@@ -121,3 +120,28 @@ Por via de regra usaremos a exceção associada ao código de status HTTP "BadRe
 Dado o escopo do projeto, criaremos testes end to end para validar os principais pontos da aplicação e alguns testes unitários para ilustrar como seria feita a implementação deles.
 
 Para fazermos os testes unitários será necessário abstrair o acesso à camada de dados através de um design pattern chamado `Repositório`, que será basicamente um provider responsável por trazer e levar os dados para o banco de dados.
+
+
+# Estrutura de arquivos
+
+O sistema tem a seguinte organização:
+
+* **./**: Onde ficam os arquivos de configuração principais das tecnologias utilizadas.
+
+* **./doc**: Aqui teremos alguns arquivos de documentação interna à respeito das especificações e requisitos do projeto.
+
+* **./src**: Código fonte do projeto
+
+  * **./models**: As definições de esquema do banco de dados
+
+  * **./modules**: Onde ficam os módulos do sistema.
+    * **./database**: Módulo que carrega e executa tarefas associadas ao banco de dados
+
+    * **./banking**: Módulo onde fica o código responsável pela API do sistema de gestão de contas
+
+  * **./pipes**: Onde definimos pipes de validação e transformação
+
+  * **./main.ts**: Entrypoint do projeto
+
+  * **./config.ts**: Arquivo onde podem ser agregadas as variáveis de ambiente
+
