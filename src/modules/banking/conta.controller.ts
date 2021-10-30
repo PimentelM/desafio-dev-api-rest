@@ -1,13 +1,13 @@
 import {Body, Controller, Get, Param, Post, Query} from '@nestjs/common';
-import {ParseObjectIdPipe} from "../../../pipes/ParseObjectIdPipe";
-import {ParseDateTimePipe} from "../../../pipes/ParseDateTimePipe";
-import {ContaService} from "../services/conta.service";
+import {ParseObjectIdPipe} from "../../pipes/ParseObjectIdPipe";
+import {ParseDateTimePipe} from "../../pipes/ParseDateTimePipe";
+import {ContaService} from "./conta.service";
 import {
     BloquearContaValidator,
     CriarContaValidator,
     DepositarValorValidator,
     SacarValorValidator
-} from "../validators/conta.controller.validators";
+} from "./conta.controller.validators";
 
 
 @Controller('conta')

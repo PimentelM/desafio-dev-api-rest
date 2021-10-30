@@ -1,12 +1,11 @@
 require('dotenv').config({path: '.env.test.with.cloud.db'});
-import {Connection, Model} from "mongoose";
-import {DatabaseService} from "../../database/database.service";
+import {Model} from "mongoose";
 import {Test, TestingModule} from '@nestjs/testing';
 import {INestApplication} from '@nestjs/common';
 import * as request from 'supertest';
-import {AppModule} from '../../../app.module';
+import {AppModule} from '../../app.module';
 import {MongoMemoryServer} from 'mongodb-memory-server';
-import {setupApp} from "../../../main";
+import {setupApp} from "../../main";
 import {getMockConta, getRandomMockTransactions, getRandomMongoId} from "./mocks";
 import {getModelToken} from "@nestjs/mongoose";
 import {sortBy} from "lodash"
@@ -83,19 +82,24 @@ describe('ContaController (e2e)', () => {
 
 
         it('O saldo deve ser o mesmo registrado no banco de dados', async () => {
-            // Registra um usuário mock
-            let {_id}: any = await contaModel.create(getMockConta())
+            // Registra uma conta mock
+            let {_id}: any = await contaModel.create({
+                pessoa: `112233445566112233445566`,
+                saldo: 1000,
+                limiteSaqueDiario: 500,
+                flagAtivo: true,
+                tipoConta: 1,
+            })
 
 
             let response = await request(httpServer).get(`/api/banking/conta/saldo/${_id}`)
 
             expect(response.status).toBe(200)
-            expect(response.body).toMatchObject({saldo: getMockConta().saldo})
+            expect(response.body.saldo).toBe(1000)
 
         });
 
     })
-
 
     describe(`/extrato/:contaId`, () => {
 
@@ -183,5 +187,5 @@ describe('ContaController (e2e)', () => {
         });
     })
 
-
+    
 });
