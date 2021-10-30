@@ -1,3 +1,57 @@
+# Desafio Api REST
+
+Esta é uma API ilustrativa que foi implementada como uma forma de demonstrar em termos gerais qual é o meu estilo de desenvolvimento de no presente momento. 
+
+![NodeJS](https://img.shields.io/badge/node.js-6DA55F?style=for-the-badge&logo=node.js&logoColor=white)
+![TypeScript](https://img.shields.io/badge/typescript-%23007ACC.svg?style=for-the-badge&logo=typescript&logoColor=white)
+![NestJS](https://img.shields.io/badge/nestjs-%23E0234E.svg?style=for-the-badge&logo=nestjs&logoColor=white)
+![MongoDB](https://img.shields.io/badge/MongoDB-%234ea94b.svg?style=for-the-badge&logo=mongodb&logoColor=white)
+![Yarn](https://img.shields.io/badge/yarn-%232C8EBB.svg?style=for-the-badge&logo=yarn&logoColor=white)
+
+
+
+
+# Como usar
+
+### Instalação
+
+Para rodar este projeto em seu computador será necessário instalar a versão LTS do Node, encontrada [neste link](https://nodejs.org/en/download/), e em seguida executar os seguintes comandos em seu terminal:
+
+
+```bash
+git clone https://github.com/PimentelM/desafio-dev-api-rest
+cd ./desafio-dev-api-rest
+npm install --global yarn
+yarn install
+yarn start
+```
+
+Caso prefira utilizar a versão em docker, basta ter em seu computador o Docker instalado e rodar o comando `docker-compose up`
+
+
+```bash
+git clone https://github.com/PimentelM/desafio-dev-api-rest
+cd ./desafio-dev-api-rest
+docker-compose up
+```
+
+
+No final do proesso, será disponibilizo um servidor HTTP na porta 3000 do localhost.
+
+# Uso
+
+Você poderá utilizar a API através do painel de requisições disponibilizado pelo `Swagger` ( ou um client HTTP de sua preferência), lá também será possível encontrar as especificações de cada endpoint e quais tipos de dados eles aceitam e esperam.
+
+[Imagem do painel]
+
+Uma vez que a API estiver rodando, o painel poderá ser encontrado no seguinte caminho: http://localhost:3000/api
+
+
+
+
+
+
+
 # Sobre a arquitetura escolhida
 
 O sistema está organizado em uma estrutura que favorece bastante a manutenção e estruturação de aplicações monolíticas, onde o código e os diferentes componentes do sistema podem ser reutilizados ou modificados com facilidade.
@@ -23,7 +77,6 @@ Toda a lógica da aplicação será feita na camada de serviços, os serviços p
 ### Camada de dados
 
 Esta camada será provida através de models que serão injetados nos serviços sob demanda. Os models são representações das entidades e todas as queries e operações relacionadas ao banco de dados podem ser feitas através deles.
-
 
 
 # Sobre as tecnologias escolhidas
@@ -57,4 +110,13 @@ Por ser uma verificação de regra de negócio, a verificação será feita manu
 
 Por via de regra usaremos a exceção associada ao código de status HTTP "BadRequest", que já possui um handler nativo do Nest, mas caso seja necessário abstrair totalmente algum serviço da camada de API então a classe do erro seria substituida por uma classe agnóstica e um handler para ela seria criada.
 
+
+
+# Testes
+
+Dado o escopo do projeto, criaremos testes end to end para validar os principais pontos da aplicação e alguns testes unitários para ilustrar como seria feita a implementação deles.
+
+Para fazermos os testes unitários será necessário abstrair o acesso à camada de dados através de um design pattern chamado `Repositório`, que será basicamente um provider responsável por trazer e levar os dados para o banco de dados.
+
+De forma ilustrativa faremos isso em apenas dois métodos do serviço conta e usaremos mocks para importar o serviço sem injetar os models do banco de dados dos quais ele depende.
 
