@@ -4,7 +4,7 @@ import {Model} from "mongoose";
 import * as mongoose from "mongoose";
 
 @Injectable()
-export class BankingService {
+export class ContaService {
 
     constructor(
         @InjectModel('Conta') private contaModel : Model<any>,
@@ -145,11 +145,11 @@ export class BankingService {
 
     async consultarSaldo(contaId: string){
         // Faz verificações sobre a conta
-        let conta = await this.contaModel.findOne({_id: contaId})
+        let conta =await this.contaModel.findOne({_id: contaId})
         if(!conta) throw new BadRequestException("Conta inexistente")
 
 
-        return conta.saldo
+        return { saldo: conta.saldo }
     }
 
 

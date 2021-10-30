@@ -487,3 +487,5 @@ sw.*
 /electron/
 
 cypress/videos/
+
+.env.test.with.cloud.db
