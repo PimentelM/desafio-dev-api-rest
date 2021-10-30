@@ -1,0 +1,26 @@
+version: '3'
+
+services:
+  server:
+    container_name: NODEJS_SERVER
+    build: '.'
+    volumes:
+      - ./:/home/node
+      - ./node_modules:/home/node/node_modules
+    environment:
+      NODE_ENV: production
+      DB_CONN: mongodb://db:27017/production
+    depends_on:
+      - db
+    links:
+      - db
+    ports:
+      - '3000:3000'
+
+  db:
+    image: 'mongo'
+    container_name: MONGODB
+    ports:
+      - '27017:27017'
+    volumes:
+      - ./data_db:/data/db
