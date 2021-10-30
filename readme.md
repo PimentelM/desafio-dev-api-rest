@@ -10,7 +10,11 @@ Esta é uma API ilustrativa que foi implementada como uma forma de demonstrar em
 ![Yarn](https://img.shields.io/badge/yarn-%232C8EBB.svg?style=for-the-badge&logo=yarn&logoColor=white)
 
 
-# Como usar
+<!-- START doctoc -->
+<!-- END doctoc -->
+
+
+# Instruções de uso
 
 ### Instalação
 
@@ -47,7 +51,7 @@ Você poderá utilizar esta API através do painel de requisições disponibiliz
 
 Todas as especificações referentes à API estarão disponíveis no painel do `Swagger` uma vez que a API estiver rodando.
 
-[Imagem do painel]
+![Swagger](./doc/images/swagger.png)
 
 O Painel poderá ser acessado através da seguinte URL: `http://localhost:3000/api`
 
