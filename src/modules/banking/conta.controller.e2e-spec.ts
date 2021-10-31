@@ -60,12 +60,22 @@ describe('ContaController (e2e)', () => {
         // Limpa o banco de dados antes de cada teste
         await contaModel.deleteMany({})
         await transacaoModel.deleteMany({})
-        await pessoaModel.deleteMany({})
     });
 
     afterAll(async () => {
         if (process.env.use_in_memory_mongo)
             await mongod.stop();
+
+        await app.close()
+
+        process.exit(0);
+
+    })
+
+    describe("Banco de dados", () => {
+        it(`Deve existir pelo menos uma pessoa cadastrada no banco de dados`, async  () => {
+            expect((await pessoaModel.find({})).length).toBeGreaterThan(0)
+        })
     })
 
     describe("/saldo/:contaid", () => {
@@ -231,6 +241,252 @@ describe('ContaController (e2e)', () => {
 
 
         })
+    })
+
+    describe(`/depositar-valor`, ()=>{
+
+        it("Deve ser possível depositar valores na conta", async () => {
+            // Cria uma conta de testes.
+            let contaId = (await contaModel.create(getMockConta({saldo: 0})))._id
+
+            // A conta começa com 0 de saldo.
+            let response = await request(httpServer).post(`/api/banking/conta/depositar-valor`).send({
+                conta: contaId,
+                valor: 1000
+            })
+
+            let {novoSaldo} = response.body
+
+            expect(novoSaldo).toBe(1000)
+
+            // Confere o saldo da conta no banco
+
+            let conta = await contaModel.findOne({_id: contaId}).select('saldo')
+
+            expect(conta.saldo).toBe(1000)
+
+
+            response = await request(httpServer).post(`/api/banking/conta/depositar-valor`).send({
+                conta: contaId,
+                valor: 1000
+            })
+
+            novoSaldo = response.body.novoSaldo
+
+            expect(novoSaldo).toBe(2000)
+
+            // Confere o saldo da conta no banco
+
+            conta = await contaModel.findOne({_id: contaId}).select('saldo')
+
+            expect(conta.saldo).toBe(2000)
+        })
+
+        it("Não deve ser possível depositar dinheiro em uma conta inativa", async () => {
+            // Cria uma conta de testes.
+            let contaId = (await contaModel.create(getMockConta({saldo: 0, flagAtivo: false})))._id
+
+            // A conta começa com 0 de saldo.
+            let response = await request(httpServer).post(`/api/banking/conta/depositar-valor`).send({
+                conta: contaId,
+                valor: 1000
+            })
+
+            expect(response.status).toBe(400)
+            expect(response.body).toMatchObject({
+                error: "Bad Request"
+            })
+        })
+
+        it("Não deve ser possível depositar dinheiro em uma conta inexistente", async () => {
+            // A conta começa com 0 de saldo.
+            let response = await request(httpServer).post(`/api/banking/conta/depositar-valor`).send({
+                conta: `112233445566112233445500`,
+                valor: 1000
+            })
+
+            expect(response.status).toBe(400)
+            expect(response.body).toMatchObject({
+                error: "Bad Request"
+            })
+        })
+
+    })
+
+    describe(`/sacar-valor`, ()=>{
+
+        it("Deve ser possível sacar valores da conta", async () => {
+            // Cria uma conta de testes com saldo inicial de 1000 e limite de saque diário de 500
+            let contaId = (await contaModel.create(getMockConta({saldo: 1000, limiteSaqueDiario: 500})))._id
+
+            // Faz um saque de 200
+            let response = await request(httpServer).post(`/api/banking/conta/sacar-valor`).send({
+                conta: contaId,
+                valor: 200
+            })
+
+            let {novoSaldo} = response.body
+
+            expect(novoSaldo).toBe(800)
+
+            // Confere o saldo da conta no banco
+
+            let {saldo} = await contaModel.findOne({_id: contaId}).select('saldo')
+
+            expect(saldo).toBe(800)
+
+        })
+
+        it("Não deve ser possível sacar valores de conta inativa", async () => {
+            // Cria uma conta de testes com saldo inicial de 1000 e limite de saque diário de 500
+            let contaId = (await contaModel.create(getMockConta({saldo: 1000, limiteSaqueDiario: 500, flagAtivo: false})))._id
+
+            // Solicita um saque de 2000
+            let response = await request(httpServer).post(`/api/banking/conta/sacar-valor`).send({
+                conta: contaId,
+                valor: 200
+            })
+
+            expect(response.status).toBe(400)
+            expect(response.body).toMatchObject({
+                error: "Bad Request"
+            })
+
+        })
+
+        it("Não deve ser possível sacar valores de conta inexistente", async () => {
+            // Solicita um saque de 2000
+            let response = await request(httpServer).post(`/api/banking/conta/sacar-valor`).send({
+                conta: `112233445566112233445500`,
+                valor: 200
+            })
+
+            expect(response.status).toBe(400)
+            expect(response.body).toMatchObject({
+                error: "Bad Request"
+            })
+
+        })
+
+        it("Não deve ser possível sacar valores maiores que o saldo", async () => {
+            // Cria uma conta de testes com saldo inicial de 1000 e limite de saque diário de 500
+            let contaId = (await contaModel.create(getMockConta({saldo: 1000, limiteSaqueDiario: 500})))._id
+
+            // Solicita um saque de 2000
+            let response = await request(httpServer).post(`/api/banking/conta/sacar-valor`).send({
+                conta: contaId,
+                valor: 2000
+            })
+
+
+            expect(response.status).toBe(400)
+            expect(response.body).toMatchObject({
+                error: "Bad Request"
+            })
+
+        })
+
+        it("Não deve ser possível sacar valores maiores que o limite diário", async () => {
+            // Cria uma conta de testes com saldo inicial de 1000 e limite de saque diário de 500
+            let contaId = (await contaModel.create(getMockConta({saldo: 1000, limiteSaqueDiario: 500})))._id
+
+            // Solicita um saque de 700
+            let response = await request(httpServer).post(`/api/banking/conta/sacar-valor`).send({
+                conta: contaId,
+                valor: 700
+            })
+
+
+            expect(response.status).toBe(400)
+            expect(response.body).toMatchObject({
+                error: "Bad Request"
+            })
+
+        })
+
+        it("O limite diário deve ser respeitado", async () => {
+            // Cria uma conta de testes com saldo inicial de 1000 e limite de saque diário de 500
+            let contaId = (await contaModel.create(getMockConta({saldo: 1000, limiteSaqueDiario: 500})))._id
+
+            let response;
+            // Limite: 500
+            // Solicita um saque de 200
+            response = await request(httpServer).post(`/api/banking/conta/sacar-valor`).send({
+                conta: contaId,
+                valor: 200
+            })
+            expect(response.status).toBe(201)
+
+            // Limite: 300
+            // Solicita um saque de 200
+            response = await request(httpServer).post(`/api/banking/conta/sacar-valor`).send({
+                conta: contaId,
+                valor: 200
+            })
+            expect(response.status).toBe(201)
+
+
+            // Limite: 100
+            // Solicita um saque de 200
+            response = await request(httpServer).post(`/api/banking/conta/sacar-valor`).send({
+                conta: contaId,
+                valor: 200
+            })
+
+            expect(response.status).toBe(400)
+            expect(response.body).toMatchObject({
+                error: "Bad Request"
+            })
+
+        })
+
+        it("As transações ocupam o limite diário somente durante 24 horas após sua realização", async () => {
+            // Cria uma conta de testes com saldo inicial de 1000 e limite de saque diário de 500
+            let contaId = (await contaModel.create(getMockConta({saldo: 1000, limiteSaqueDiario: 500})))._id
+
+            // Registra uma transação que foi efetuada 24 horas atrás
+            await transacaoModel.create({
+                conta: contaId,
+                valor: 500,
+                dataTransacao: new Date(Date.now() - 24 * 60 * 60 * 1000)
+            })
+
+            let response;
+            // Limite: 500
+            // Solicita um saque de 500
+            response = await request(httpServer).post(`/api/banking/conta/sacar-valor`).send({
+                conta: contaId,
+                valor: 500
+            })
+            expect(response.status).toBe(201)
+            expect(response.body).toMatchObject({
+                novoSaldo: 500
+            })
+
+
+        })
+    })
+
+
+    describe(`/bloquear-conta`, () => {
+
+        it("Deve ser possível bloquear a conta", async () => {
+            // Cria uma conta de testes
+            let contaId = (await contaModel.create(getMockConta({flagAtivo: true})))._id
+
+            // Solicita bloqueio
+            let response = await request(httpServer).post(`/api/banking/conta/bloquear`).send({
+                conta: contaId,
+            })
+
+
+            let {flagAtivo} = await contaModel.findOne({_id: contaId}).select('flagAtivo')
+
+            expect(flagAtivo).toBe(false)
+
+
+        })
+
     })
 
 });

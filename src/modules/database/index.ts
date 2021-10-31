@@ -4,6 +4,7 @@ import {configs} from "../../configs";
 import {models} from "../../models";
 import {DatabaseService} from "./database.service";
 import {MongoMemoryServer} from "mongodb-memory-server";
+import {MigrationService} from "./migration.service";
 
 @Global()
 @Module({
@@ -36,7 +37,7 @@ import {MongoMemoryServer} from "mongodb-memory-server";
         }),
         MongooseModule.forFeature(models)
     ],
-    providers: [DatabaseService],
+    providers: [DatabaseService, MigrationService],
     exports: [MongooseModule],
 })
 export class DatabaseModule  {}

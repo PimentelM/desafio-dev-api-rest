@@ -10,9 +10,25 @@ Esta é uma API ilustrativa que foi implementada como uma forma de demonstrar em
 ![Yarn](https://img.shields.io/badge/yarn-%232C8EBB.svg?style=for-the-badge&logo=yarn&logoColor=white)
 
 
-<!-- START doctoc -->
-<!-- END doctoc -->
+##Tabela de Conteúdos
+<!-- START doctoc generated TOC please keep comment here to allow auto update -->
+<!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
 
+- [Instruções de uso](#instru%C3%A7%C3%B5es-de-uso)
+    - [Instalação](#instala%C3%A7%C3%A3o)
+      - [Observações sobre o banco de dados](#observa%C3%A7%C3%B5es-sobre-o-banco-de-dados)
+    - [Uso da API](#uso-da-api)
+- [Sobre a arquitetura escolhida](#sobre-a-arquitetura-escolhida)
+    - [Camada de API ( Presentation Layer )](#camada-de-api--presentation-layer-)
+    - [Camada de Serviços ( Business Logic Layer )](#camada-de-servi%C3%A7os--business-logic-layer-)
+    - [Camada de Repositórios ( Persistence Layer)](#camada-de-reposit%C3%B3rios--persistence-layer)
+- [Sobre as tecnologias escolhidas](#sobre-as-tecnologias-escolhidas)
+    - [Validação de dados nos controllers](#valida%C3%A7%C3%A3o-de-dados-nos-controllers)
+    - [Validação de dados nos Serviços](#valida%C3%A7%C3%A3o-de-dados-nos-servi%C3%A7os)
+- [Testes](#testes)
+- [Estrutura de arquivos](#estrutura-de-arquivos)
+
+<!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
 # Instruções de uso
 
@@ -65,6 +81,11 @@ Considerei fazer a API utilizando apenas o Express.js, porém esta seria minha e
 
 Dividi o sistema em três camadas principais que serão descritas à seguir.
 
+> ### Nota do autor
+> Neste momento do desenvolvimento eu me reuniria com o time para avaliar a necessidade de refatorar o código com o padrão de design de repositórios para fazer a implementação de testes unitários, já que estes requerem uma camada de abstração entre os serviços e o banco de dados para serem feitos.
+> 
+> O sistema é modular, então nem todos os módulos precisariam seguir à risca a ideia de abstrair o acesso aos models, já que a implementação de um módulo não interfere na implementação de outro.
+
 ### Camada de API ( Presentation Layer )
 
 Nesta camada, utilizaremos controllers para:
@@ -111,7 +132,7 @@ Retornaremos um erro `400 Bad Request` na requisição quando um input não esti
 Class validators serão utilizados para o corpo da requisição em requisições HTTP do tipo `POST`, e Pipes de validação serão utilizados para parâmetros e queries.
 
 
-### Validação de dados nos Serviços
+### Validação de dados nos serviços
 
 Por ser uma verificação de regra de negócio, a verificação será feita com código, tradicionalmente, e sempre que algum input for inválido, lançaremos uma Exceção que será captada pelo NestJs e uma resposta apropriada será enviada ao usuário.
 
@@ -123,7 +144,33 @@ Por via de regra usaremos a exceção associada ao código de status HTTP "BadRe
 
 Dado o escopo do projeto, criaremos testes end to end para validar os principais pontos da aplicação e alguns testes unitários para ilustrar como seria feita a implementação deles.
 
-Para fazermos os testes unitários será necessário abstrair o acesso à camada de dados através de um design pattern chamado `Repositório`, que será basicamente um provider responsável por trazer e levar os dados para o banco de dados.
+A cobertura dos testes não é 100% e nem cobre todos os casos possíveis, o intúito aqui é ilustrar a implementação de diferentes tipos de testes para registro do estilo de desenvolvimento.
+
+Os testes podem ser encontrados ao lado de seus respectivos controllers // serviços, tendo a seguinte convenção de nomeclatura:
+
+`.e2e.ts`: Testes de integração
+
+`.spec.ts`: Testes unitários
+
+
+> ## Nota do desenvolvedor:
+> 
+> Testes automatizados são a àrea de desenvolvimento onde mais tenho curiosidade para aprender sobre como eles são utilizados em equipes que conseguiram levar isso ao estado da arte, pois caso sigamos à risca a ideia de criar testes unitários para todos os componentes do nosso sistema acabamos corredo o risco de engessar o sistema e gerar muito overhead no desenvolvimento, e por outro lado, testes são ferramentas muito úteis que podem ser inclusive usadas para documentar o funcionamento do sistema, especificar requisitos e garantir que o código terá algo contra o qual será testado antes mesmo de começarmos a escreve-lo ( Caso usemos testes na prática de TDD ). 
+> Acredito que é uma arte que vale a pena ser masterizada e neste projeto refleti apenas o meu estado atual de entendimento sobre o assunto, que está em desenvolvimento.
+> 
+
+
+# Deploy
+
+A maioria dos provedores de cloud modernos, como Digital Ocean, Google Cloud e AWS oferecem um tipo de serviço onde você compra uma instância de uma máquina virtual / container e pode configura-la com uma determinada imagem e diferentes parâmtros.
+ 
+
+Dado que a topologia do nosso sistema constitui-se de dois principais elementos, sendo eles o servidor NestJs e o banco de dados, poderiamos alugar uma instância para cada um destes elementos e fazer o deploy de acordo com os procedimentos de cada provedor de cloud.
+
+O banco de dados seria o mais simples, pois após a configuração dos parâmetros desejados poderiamos obter a string de conexão e pouca interação com o provedor cloud precisaria ser feita dali em diante, já que poderiamos monitorar o banco usando ferramentas que se conectam de forma externa.
+
+Por outro lado, se tratando do servidor da API, dado que se trata de um sistema que provavelmente estará em constante pudanca, precisariamos também procurar por soluções que nos oferececem alguns recursos como suporte à integração contínua / entrega contínua ( para que póssamos fazer o deploy de versões atualizadas do sistema com apenas um push em uma branch ), e também recursos que nos permitam uma maior visibilidade do que acontece com a instância à nível de recursos, rede e de camada de aplicação, ou seja, uma plataforma com monitoramento de tempo de resposta, uso de memória, uso de processador, e etc, tendo assim uma boa visibilidade do estado da aplicação.
+
 
 
 # Estrutura de arquivos

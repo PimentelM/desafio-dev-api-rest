@@ -3,6 +3,8 @@ import {Schema, SchemaDefinition, SchemaOptions} from "mongoose";
 import Conta from "./conta";
 import Pessoa from "./pessoa";
 import Transacao from "./transacao";
+import Migration from "./migration"
+
 
 // Usamos esta interface para padronizar a definição dos models das entidades do sistema
 export interface ModelDefinition {
@@ -18,7 +20,8 @@ interface CompiledModelDefinition {name: string, schema: Schema}
 let modelDefinitions: ModelDefinition[] = [
     Conta,
     Pessoa,
-    Transacao
+    Transacao,
+    Migration
 ]
 
 // Podemos alterar esta função para lidar com eventuais definições mais complexas.
