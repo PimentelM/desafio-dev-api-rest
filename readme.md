@@ -30,7 +30,6 @@ Tabela de conteúdos
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
-
 # Instruções de uso
 
 ### Instalação
@@ -140,7 +139,20 @@ Por via de regra usaremos a exceção associada ao código de status HTTP "BadRe
 
 Dado o escopo do projeto, criaremos testes end to end para validar os principais pontos da aplicação e alguns testes unitários para ilustrar como seria feita a implementação deles.
 
-Para fazermos os testes unitários será necessário abstrair o acesso à camada de dados através de um design pattern chamado `Repositório`, que será basicamente um provider responsável por trazer e levar os dados para o banco de dados.
+A cobertura dos testes não é 100% e nem cobre todos os casos possíveis, o intúito aqui é ilustrar a implementação de diferentes tipos de testes para registro do estilo de desenvolvimento.
+
+Os testes podem ser encontrados ao lado de seus respectivos controllers // serviços, tendo a seguinte convenção de nomeclatura:
+
+`.e2e.ts`: Testes de integração
+
+`.spec.ts`: Testes unitários
+
+
+> ## Nota do desenvolvedor:
+> 
+> Testes automatizados são a àrea de desenvolvimento onde mais tenho curiosidade para aprender sobre como eles são utilizados em equipes que conseguiram levar isso ao estado da arte, pois caso sigamos à risca a ideia de criar testes unitários para todos os componentes do nosso sistema acabamos corredo o risco de engessar o sistema e gerar muito overhead no desenvolvimento, e por outro lado, testes são ferramentas muito úteis que podem ser inclusive usadas para documentar o funcionamento do sistema, especificar requisitos e garantir que o código terá algo contra o qual será testado antes mesmo de começarmos a escreve-lo ( Caso usemos testes na prática de TDD ). 
+> Acredito que é uma arte que vale a pena ser masterizada e neste projeto refleti apenas o meu estado atual de entendimento sobre o assunto, que está em desenvolvimento.
+> 
 
 
 # Estrutura de arquivos
