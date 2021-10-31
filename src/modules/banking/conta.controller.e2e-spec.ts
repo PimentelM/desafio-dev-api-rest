@@ -452,7 +452,7 @@ describe('ContaController (e2e)', () => {
             // Solicita um saque de 500
             response = await request(httpServer).post(`/api/banking/conta/sacar-valor`).send({
                 conta: contaId,
-                valor: 200
+                valor: 500
             })
             expect(response.status).toBe(201)
             expect(response.body).toMatchObject({
