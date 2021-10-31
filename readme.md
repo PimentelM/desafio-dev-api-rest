@@ -173,7 +173,7 @@ Os testes podem ser encontrados ao lado de seus respectivos controllers // servi
 
 # Deploy
 
-A maioria dos provedores de cloud modernos, como Digital Ocean, Google Cloud e AWS oferecem um tipo de serviço onde você compra uma instância de uma máquina virtual / container e pode configura-la com uma determinada imagem e diferentes parâmtros.
+A maioria dos provedores de cloud modernos, como Digital Ocean, Google Cloud e AWS oferecem um tipo de serviço onde você compra uma instância de uma máquina virtual / container e pode configura-la com uma determinada imagem e diferentes parâmetros.
  
 
 Dado que a topologia do nosso sistema constitui-se de dois principais elementos, sendo eles o servidor NestJs e o banco de dados, poderiamos alugar uma instância para cada um destes elementos e fazer o deploy de acordo com os procedimentos de cada provedor de cloud.
