@@ -12,7 +12,7 @@ Esta é uma API ilustrativa que foi implementada como uma forma de demonstrar em
 
 <!-- START doctoc generated TOC please keep comment here to allow auto update -->
 <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
-Tabela de conteúdos
+\# Tabela de conteúdos
 
 - [Instruções de uso](#instru%C3%A7%C3%B5es-de-uso)
     - [Instalação](#instala%C3%A7%C3%A3o)
