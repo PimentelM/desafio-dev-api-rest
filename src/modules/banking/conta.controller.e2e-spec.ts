@@ -435,6 +435,32 @@ describe('ContaController (e2e)', () => {
             })
 
         })
+
+        it("As transações ocupam o limite diário somente durante 24 horas após sua realização", async () => {
+            // Cria uma conta de testes com saldo inicial de 1000 e limite de saque diário de 500
+            let contaId = (await contaModel.create(getMockConta({saldo: 1000, limiteSaqueDiario: 500})))._id
+
+            // Registra uma transação que foi efetuada 24 horas atrás
+            await transacaoModel.create({
+                conta: contaId,
+                valor: 500,
+                dataTransacao: new Date(Date.now() - 24 * 60 * 60 * 1000)
+            })
+
+            let response;
+            // Limite: 500
+            // Solicita um saque de 500
+            response = await request(httpServer).post(`/api/banking/conta/sacar-valor`).send({
+                conta: contaId,
+                valor: 200
+            })
+            expect(response.status).toBe(201)
+            expect(response.body).toMatchObject({
+                novoSaldo: 500
+            })
+
+
+        })
     })
 
 
