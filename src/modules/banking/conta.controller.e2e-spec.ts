@@ -57,11 +57,9 @@ describe('ContaController (e2e)', () => {
     })
 
     beforeEach(async () => {
-        console.debug(`Deleting all registers... Outer beforeEach`)
         // Limpa o banco de dados antes de cada teste
         await contaModel.deleteMany({})
         await transacaoModel.deleteMany({})
-        await pessoaModel.deleteMany({})
     });
 
     afterAll(async () => {
@@ -72,6 +70,12 @@ describe('ContaController (e2e)', () => {
 
         process.exit(0);
 
+    })
+
+    describe("Banco de dados", () => {
+        it(`Deve existir pelo menos uma pessoa cadastrada no banco de dados`, async  () => {
+            expect((await pessoaModel.find({})).length).toBeGreaterThan(0)
+        })
     })
 
     describe("/saldo/:contaid", () => {
