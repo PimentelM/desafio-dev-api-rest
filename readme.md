@@ -127,7 +127,7 @@ Retornaremos um erro `400 Bad Request` na requisição quando um input não esti
 Class validators serão utilizados para o corpo da requisição em requisições HTTP do tipo `POST`, e Pipes de validação serão utilizados para parâmetros e queries.
 
 
-### Validação de dados nos Serviços
+### Validação de dados nos serviços
 
 Por ser uma verificação de regra de negócio, a verificação será feita com código, tradicionalmente, e sempre que algum input for inválido, lançaremos uma Exceção que será captada pelo NestJs e uma resposta apropriada será enviada ao usuário.
 
@@ -153,6 +153,19 @@ Os testes podem ser encontrados ao lado de seus respectivos controllers // servi
 > Testes automatizados são a àrea de desenvolvimento onde mais tenho curiosidade para aprender sobre como eles são utilizados em equipes que conseguiram levar isso ao estado da arte, pois caso sigamos à risca a ideia de criar testes unitários para todos os componentes do nosso sistema acabamos corredo o risco de engessar o sistema e gerar muito overhead no desenvolvimento, e por outro lado, testes são ferramentas muito úteis que podem ser inclusive usadas para documentar o funcionamento do sistema, especificar requisitos e garantir que o código terá algo contra o qual será testado antes mesmo de começarmos a escreve-lo ( Caso usemos testes na prática de TDD ). 
 > Acredito que é uma arte que vale a pena ser masterizada e neste projeto refleti apenas o meu estado atual de entendimento sobre o assunto, que está em desenvolvimento.
 > 
+
+
+# Deploy
+
+A maioria dos provedores de cloud modernos, como Digital Ocean, Google Cloud e AWS oferecem um tipo de serviço onde você compra uma instância de uma máquina virtual / container e pode configura-la com uma determinada imagem e diferentes parâmtros.
+ 
+
+Dado que a topologia do nosso sistema constitui-se de dois principais elementos, sendo eles o servidor NestJs e o banco de dados, poderiamos alugar uma instância para cada um destes elementos e fazer o deploy de acordo com os procedimentos de cada provedor de cloud.
+
+O banco de dados seria o mais simples, pois após a configuração dos parâmetros desejados poderiamos obter a string de conexão e pouca interação com o provedor cloud precisaria ser feita dali em diante, já que poderiamos monitorar o banco usando ferramentas que se conectam de forma externa.
+
+Por outro lado, se tratando do servidor da API, dado que se trata de um sistema que provavelmente estará em constante pudanca, precisariamos também procurar por soluções que nos oferececem alguns recursos como suporte à integração contínua / entrega contínua ( para que póssamos fazer o deploy de versões atualizadas do sistema com apenas um push em uma branch ), e também recursos que nos permitam uma maior visibilidade do que acontece com a instância à nível de recursos, rede e de camada de aplicação, ou seja, uma plataforma com monitoramento de tempo de resposta, uso de memória, uso de processador, e etc, tendo assim uma boa visibilidade do estado da aplicação.
+
 
 
 # Estrutura de arquivos
