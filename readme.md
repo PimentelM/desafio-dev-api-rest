@@ -24,8 +24,9 @@ Esta é uma API ilustrativa que foi implementada como uma forma de demonstrar em
     - [Camada de Repositórios ( Persistence Layer)](#camada-de-reposit%C3%B3rios--persistence-layer)
 - [Sobre as tecnologias escolhidas](#sobre-as-tecnologias-escolhidas)
     - [Validação de dados nos controllers](#valida%C3%A7%C3%A3o-de-dados-nos-controllers)
-    - [Validação de dados nos Serviços](#valida%C3%A7%C3%A3o-de-dados-nos-servi%C3%A7os)
+    - [Validação de dados nos serviços](#valida%C3%A7%C3%A3o-de-dados-nos-servi%C3%A7os)
 - [Testes](#testes)
+- [Deploy](#deploy)
 - [Estrutura de arquivos](#estrutura-de-arquivos)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
