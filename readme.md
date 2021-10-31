@@ -19,7 +19,7 @@ Esta é uma API ilustrativa que foi implementada como uma forma de demonstrar em
     - [Instalação](#instala%C3%A7%C3%A3o)
       - [Observações sobre o banco de dados](#observa%C3%A7%C3%B5es-sobre-o-banco-de-dados)
     - [Uso da API](#uso-da-api)
-- [Sobre a arquitetura escolhida](#sobre-a-arquitetura-escolhida)
+- [Arquitetura](#arquitetura)
     - [Camada de API ( Presentation Layer )](#camada-de-api--presentation-layer-)
     - [Camada de Serviços ( Business Logic Layer )](#camada-de-servi%C3%A7os--business-logic-layer-)
     - [Camada de Repositórios ( Persistence Layer)](#camada-de-reposit%C3%B3rios--persistence-layer)
