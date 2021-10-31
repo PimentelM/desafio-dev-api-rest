@@ -10,7 +10,8 @@ Esta é uma API ilustrativa que foi implementada como uma forma de demonstrar em
 ![Yarn](https://img.shields.io/badge/yarn-%232C8EBB.svg?style=for-the-badge&logo=yarn&logoColor=white)
 
 
-##Tabela de Conteúdos
+## Tabela de Conteúdos
+
 <!-- START doctoc generated TOC please keep comment here to allow auto update -->
 <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
 
@@ -55,6 +56,8 @@ docker-compose up
 ```
 No final do proesso, será disponibilizo um servidor HTTP na porta `3000` do `localhost`.
 
+Caso deseje especificar outra porta, utilize a variável de ambiente `PORT`
+
 
 #### Observações sobre o banco de dados
 Caso deseje especificar a string de conexão com o banco de dados, utilize a variável de ambiente `db_conn` seguindo o modelo presente no .env.example. 
@@ -69,11 +72,18 @@ Todas as especificações referentes à API estarão disponíveis no painel do `
 
 ![Swagger](./doc/images/swagger.png)
 
-O Painel poderá ser acessado através da seguinte URL: `http://localhost:3000/api`
+O Painel poderá ser acessado através do seguinte caminho: `http://<host>:<porta>/api`
 
----
+Através destas especificações é possível saber:
 
-# Sobre a arquitetura escolhida
+* Método da requisição 
+* Caminho 
+* Parâmetros, Queries e Corpo da requisição 
+* Corpo da resposta 
+* Exemplos
+
+
+# Arquitetura
 
 O sistema está organizado em uma estrutura que favorece bastante a manutenção e estruturação de aplicações monolíticas, onde o código e os diferentes componentes do sistema podem ser reutilizados ou modificados com facilidade.
 

@@ -29,7 +29,7 @@ async function bootstrap() {
   await setupApp(app)
 
   // Entra em listening mode
-  await app.listen(3000);
+  await app.listen(process.env.PORT || 3000);
 }
 
 
