@@ -92,11 +92,6 @@ Considerei fazer a API utilizando apenas o Express.js, porém esta seria minha e
 
 Dividi o sistema em três camadas principais que serão descritas à seguir.
 
-> ### Nota do autor
-> Neste momento do desenvolvimento eu me reuniria com o time para avaliar a necessidade de refatorar o código com o padrão de design de repositórios para fazer a implementação de testes unitários, já que estes requerem uma camada de abstração entre os serviços e o banco de dados para serem feitos.
-> 
-> O sistema é modular, então nem todos os módulos precisariam seguir à risca a ideia de abstrair o acesso aos models, já que a implementação de um módulo não interfere na implementação de outro.
-
 ### Camada de API ( Presentation Layer )
 
 Nesta camada, utilizaremos controllers para:

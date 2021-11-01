@@ -487,6 +487,18 @@ describe('ContaController (e2e)', () => {
 
         })
 
+
+        it("Não deve ser possível bloquear conta inexistente", async () => {
+            // Solicita bloqueio
+            let response = await request(httpServer).post(`/api/banking/conta/bloquear`).send({
+                conta: `112233445566112233445500`,
+            })
+
+            expect(response.status).toBe(400)
+
+
+        })
+
     })
 
 });
