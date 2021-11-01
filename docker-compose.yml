@@ -9,7 +9,7 @@ services:
       - ./node_modules:/home/node/node_modules
     environment:
       NODE_ENV: production
-      db_conn: mongodb://db:27017/production
+      DB_CONN: mongodb://db:27017/production
     depends_on:
       - db
     links:

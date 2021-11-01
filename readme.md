@@ -61,7 +61,7 @@ Caso deseje especificar outra porta, utilize a variável de ambiente `PORT`
 
 
 #### Observações sobre o banco de dados
-Caso deseje especificar a string de conexão com o banco de dados, utilize a variável de ambiente `db_conn` seguindo o modelo presente no .env.example. 
+Caso deseje especificar a string de conexão com o banco de dados, utilize a variável de ambiente `DB_CONN` seguindo o modelo presente no .env.example. 
 
 Caso a string de conexão não seja especificada o sistema utilizará uma instância in-memory do banco de dados ou a instância provida pelo docker-compose caso ele seja utilizado.
  

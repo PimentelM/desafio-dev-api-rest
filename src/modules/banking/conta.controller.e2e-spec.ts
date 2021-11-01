@@ -24,7 +24,7 @@ describe('ContaController (e2e)', () => {
     beforeAll(async () => {
 
         // Configura a instancia do banco de dados de teste
-        if (process.env.use_in_memory_mongo)
+        if (process.env.USE_IN_MEMORY_MONGO)
             mongod = await MongoMemoryServer.create(
                 {
                     instance: {
@@ -63,7 +63,7 @@ describe('ContaController (e2e)', () => {
     });
 
     afterAll(async () => {
-        if (process.env.use_in_memory_mongo)
+        if (process.env.USE_IN_MEMORY_MONGO)
             await mongod.stop();
 
         await app.close()
