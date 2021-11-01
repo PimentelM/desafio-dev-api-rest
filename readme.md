@@ -108,7 +108,7 @@ Toda a lógica da aplicação será feita na camada de serviços, os serviços p
 
 ### Camada de Repositórios ( Persistence Layer)
 
-Usamos esta camada para abstrair o acesso ao banco de dados através de um padrão de design chamado "Repositório". Onde poderemos escrever testes unitários para as regras de negócio dos serviços sem termos que instanciar o banco de dados.
+Usamos esta camada para abstrair o acesso ao banco de dados através de um padrão de design chamado `Repositório`, de forma que poderemos escrever testes unitários para as regras de negócio dos serviços sem termos que instanciar o banco de dados ao mockarmos as dependencias de repositório.
 
 O acesso ao banco de dados será disponibilizado através de models que serão injetados nos repositórios sob demanda. Os models são representações das entidades e todas as queries e operações relacionadas ao banco de dados podem ser feitas através deles.
 
