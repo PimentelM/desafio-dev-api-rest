@@ -1,3 +1,5 @@
+import {setupApp} from "../../setup";
+
 require('dotenv').config({path: '.env.test'});
 import {Model} from "mongoose";
 import {Test, TestingModule} from '@nestjs/testing';
@@ -5,7 +7,6 @@ import {INestApplication} from '@nestjs/common';
 import * as request from 'supertest';
 import {AppModule} from '../../app.module';
 import {MongoMemoryServer} from 'mongodb-memory-server';
-import {setupApp} from "../../main";
 import {getMockConta, getRandomMockTransactions, getRandomMongoId} from "./mocks";
 import {getModelToken} from "@nestjs/mongoose";
 import {sortBy} from "lodash"
@@ -68,7 +69,6 @@ describe('ContaController (e2e)', () => {
 
         await app.close()
 
-        process.exit(0);
 
     })
 
