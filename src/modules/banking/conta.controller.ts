@@ -70,7 +70,7 @@ export class ContaController {
 
     @Post(`/bloquear`)
     async bloquearConta(@Body() {conta} : BloquearContaDto ) : Promise<Message> {
-        await this.contaService.bloquearconta(conta)
+        await this.contaService.bloquearConta(conta)
         return {
             message: "Conta bloqueada com sucesso."
         }

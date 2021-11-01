@@ -55,7 +55,7 @@ export class ContaRepository {
 
 
 
-    async bloquearconta(contaId: string){
+    async bloquearConta(contaId: string){
         await this.contaModel.findOneAndUpdate({_id: contaId}, { $set : { flagAtivo: false}})
     }
 

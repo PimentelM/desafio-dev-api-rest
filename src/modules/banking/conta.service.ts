@@ -65,13 +65,13 @@ export class ContaService {
     }
 
 
-    async bloquearconta(contaId: string){
+    async bloquearConta(contaId: string){
         // Faz verificações sobre a conta
         let conta = await this.contaRepository.getContaById(contaId)
         if(!conta) throw new BadRequestException("Conta inexistente")
 
         // Bloqueia a conta
-        await this.contaRepository.bloquearconta(contaId)
+        await this.contaRepository.bloquearConta(contaId)
     }
 
 
