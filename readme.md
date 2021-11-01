@@ -55,7 +55,7 @@ git clone https://github.com/PimentelM/desafio-dev-api-rest
 cd ./desafio-dev-api-rest
 docker-compose up
 ```
-No final do proesso, será disponibilizo um servidor HTTP na porta `3000` do `localhost`.
+No final do processo, será disponibilizo um servidor HTTP na porta `3000` do `localhost`.
 
 Caso deseje especificar outra porta, utilize a variável de ambiente `PORT`
 
@@ -87,8 +87,6 @@ Através destas especificações é possível saber:
 # Arquitetura
 
 O sistema está organizado em uma estrutura que favorece bastante a manutenção e estruturação de aplicações monolíticas, onde o código e os diferentes componentes do sistema podem ser reutilizados ou modificados com facilidade.
-
-Considerei fazer a API utilizando apenas o Express.js, porém esta seria minha escolha caso fosse criar um microsserviço, visto que são sistemas menores. Por outro lado, quando se trata de aplicações monolíticas estas tendem a crescer bastante e mais estrutura de código é necessária.
 
 Dividi o sistema em três camadas principais que serão descritas à seguir.
 
@@ -122,7 +120,7 @@ Com a intenção de trabalhar com tecnologias que se integram de forma bastante 
 * Jest: Biblioteca de testes automatizados em Javascript / Typescript.
 * Typescript: Linguagem de escolha para o projeto, por possuir suporte à tipagem estática.
 
-O framework escolhido oferece suporte à diversos design patterns, sendo o design pattern mais notável o uso de serviços como abstrações dos diferentes componentes lógicos do sistema.
+O framework escolhido oferece suporte à diversos design patterns, sendo o mais notável o uso do padrão de Injeção de Dependencia para ligar os serviços e componentes do sistema.
 
 
 ### Validação de dados nos controllers
@@ -175,7 +173,7 @@ Dado que a topologia do nosso sistema constitui-se de dois principais elementos,
 
 O banco de dados seria o mais simples, pois após a configuração dos parâmetros desejados poderiamos obter a string de conexão e pouca interação com o provedor cloud precisaria ser feita dali em diante, já que poderiamos monitorar o banco usando ferramentas que se conectam de forma externa.
 
-Por outro lado, se tratando do servidor da API, dado que se trata de um sistema que provavelmente estará em constante pudanca, precisariamos também procurar por soluções que nos oferececem alguns recursos como suporte à integração contínua / entrega contínua ( para que póssamos fazer o deploy de versões atualizadas do sistema com apenas um push em uma branch ), e também recursos que nos permitam uma maior visibilidade do que acontece com a instância à nível de recursos, rede e de camada de aplicação, ou seja, uma plataforma com monitoramento de tempo de resposta, uso de memória, uso de processador, e etc, tendo assim uma boa visibilidade do estado da aplicação.
+Por outro lado, se tratando do servidor da API, dado que se trata de um sistema que provavelmente estará em constante mudança, precisariamos também procurar por soluções que nos oferececem alguns recursos como suporte à integração contínua / entrega contínua ( para que póssamos fazer o deploy de versões atualizadas do sistema com apenas um push em uma branch ), e também recursos que nos permitam uma maior visibilidade do que acontece com a instância à nível de recursos, rede e de camada de aplicação, ou seja, uma plataforma com monitoramento de tempo de resposta, uso de memória, uso de processador, e etc, tendo assim uma boa visibilidade do estado da aplicação.
 
 
 
