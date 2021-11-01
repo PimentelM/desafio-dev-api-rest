@@ -161,7 +161,7 @@ Os testes podem ser encontrados ao lado de seus respectivos controllers // servi
 
 > ## Nota do desenvolvedor:
 > 
-> Testes automatizados são a àrea de desenvolvimento onde mais tenho curiosidade para aprender sobre como eles são utilizados em equipes que conseguiram levar isso ao estado da arte, pois caso sigamos à risca a ideia de criar testes unitários para todos os componentes do nosso sistema acabamos corredo o risco de engessar o sistema e gerar muito overhead no desenvolvimento, e por outro lado, testes são ferramentas muito úteis que podem ser inclusive usadas para documentar o funcionamento do sistema, especificar requisitos e garantir que o código terá algo contra o qual será testado antes mesmo de começarmos a escreve-lo ( Caso usemos testes na prática de TDD ). 
+> Testes automatizados são a àrea de desenvolvimento onde mais tenho curiosidade para aprender sobre como eles são utilizados em equipes que conseguiram levar isso ao estado da arte, pois caso sigamos à risca a ideia de criar testes unitários para todos os componentes do nosso sistema acabamos corredo o risco de engessar o sistema e gerar muito overhead no desenvolvimento, e por outro lado, quando usados de forma apropriada os testes automatizados são ferramentas muito úteis que podem inclusive ser utilizadas para documentar o funcionamento do sistema, especificar requisitos e garantir que o código terá algo contra o qual será testado antes mesmo de começarmos a escreve-lo ( Caso usemos testes na prática de TDD ). 
 > Acredito que é uma arte que vale a pena ser masterizada e neste projeto refleti apenas o meu estado atual de entendimento sobre o assunto, que está em desenvolvimento.
 > 
 
