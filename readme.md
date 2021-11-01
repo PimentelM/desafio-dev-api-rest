@@ -194,12 +194,15 @@ O sistema tem a seguinte organização:
 
 * **./src**: Código fonte do projeto
 
-  * **./models**: As definições de esquema do banco de dados
-
   * **./modules**: Onde ficam os módulos do sistema.
     * **./database**: Módulo que carrega e executa tarefas associadas ao banco de dados
+      * **./models**: As definições de esquema do banco de dados
+      * **./migratios**: Define scripts que populam ou modificam o banco de dados.
 
     * **./banking**: Módulo onde fica o código responsável pela API do sistema de gestão de contas
+      * **./\*.controller.ts**: Definições de endpoints
+      * **./\*.service.ts**: Regras de negócio 
+      * **./\*.\*.e2e.ts**: Testes end-to-end
 
   * **./pipes**: Onde definimos pipes de validação e transformação
 

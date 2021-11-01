@@ -1,7 +1,7 @@
 import {Global, Inject, Module} from '@nestjs/common';
 import {MongooseModule} from "@nestjs/mongoose";
 import {configs} from "../../configs";
-import {models} from "../../models";
+import {models} from "./models";
 import {DatabaseService} from "./database.service";
 import {MongoMemoryServer} from "mongodb-memory-server";
 import {MigrationService} from "./migration.service";
