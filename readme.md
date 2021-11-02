@@ -195,7 +195,7 @@ O sistema tem a seguinte organização:
     * **./banking**: Módulo onde fica o código responsável pela API do sistema de gestão de contas
       * **./\*.controller.ts**: Definições de endpoints
       * **./\*.service.ts**: Regras de negócio 
-      * **./\*.\*.e2e.ts**: Testes end-to-end
+      * **./\*.\*.e2e-spec.ts**: Testes end-to-end
 
   * **./pipes**: Onde definimos pipes de validação e transformação
 
