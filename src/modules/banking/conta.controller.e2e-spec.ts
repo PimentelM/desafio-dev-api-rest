@@ -7,7 +7,7 @@ import {INestApplication} from '@nestjs/common';
 import * as request from 'supertest';
 import {AppModule} from '../../app.module';
 import {MongoMemoryServer} from 'mongodb-memory-server';
-import {getMockConta, getRandomMockTransactions, getRandomMongoId} from "./mocks";
+import {getMockConta, getMockTransactions, getRandomMongoId} from "./mocks";
 import {getModelToken} from "@nestjs/mongoose";
 import {sortBy} from "lodash"
 
@@ -93,14 +93,14 @@ describe('ContaController (e2e)', () => {
 
         it('O saldo deve ser o mesmo registrado no banco de dados', async () => {
             // Registra uma conta mock
-            let mockData = getMockConta()
+            let mockData = getMockConta({saldo: 1000})
             let {_id}: any = await contaModel.create(mockData)
 
 
             let response = await request(httpServer).get(`/api/banking/conta/saldo/${_id}`)
 
             expect(response.status).toBe(200)
-            expect(response.body.saldo).toBe(mockData.saldo)
+            expect(response.body.saldo).toBe(1000)
 
         });
 
@@ -124,7 +124,7 @@ describe('ContaController (e2e)', () => {
             let conta = await contaModel.create(getMockConta())
 
             // Adiciona várias transaçoes mock à conta
-            let transactions = getRandomMockTransactions(conta._id)
+            let transactions = getMockTransactions(conta._id)
             await transacaoModel.create(transactions)
 
 
