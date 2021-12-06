@@ -156,18 +156,6 @@ Os testes podem ser encontrados ao lado de seus respectivos controllers // servi
 
 `.spec.ts`: Testes unitários ( branch: unit_test_example )
 
-# Deploy
-
-A maioria dos provedores de cloud modernos, como Digital Ocean, Google Cloud e AWS oferecem um tipo de serviço onde você compra uma instância de uma máquina virtual / container e pode configura-la com uma determinada imagem e diferentes parâmetros.
- 
-
-Dado que a topologia do nosso sistema constitui-se de dois principais elementos, sendo eles o servidor NestJs e o banco de dados, poderiamos alugar uma instância para cada um destes elementos e fazer o deploy de acordo com os procedimentos de cada provedor de cloud.
-
-O banco de dados seria o mais simples, pois após a configuração dos parâmetros desejados poderiamos obter a string de conexão e pouca interação com o provedor cloud precisaria ser feita dali em diante, já que poderiamos monitorar o banco usando ferramentas que se conectam de forma externa.
-
-Por outro lado, se tratando do servidor da API, dado que se trata de um sistema que provavelmente estará em constante mudança, precisariamos também procurar por soluções que nos oferececem alguns recursos como suporte à integração contínua / entrega contínua ( para que póssamos fazer o deploy de versões atualizadas do sistema com apenas um push em uma branch ), e também recursos que nos permitam uma maior visibilidade do que acontece com a instância à nível de recursos, rede e de camada de aplicação, ou seja, uma plataforma com monitoramento de tempo de resposta, uso de memória, uso de processador, e etc, tendo assim uma boa visibilidade do estado da aplicação.
-
-
 
 # Estrutura de arquivos
 
