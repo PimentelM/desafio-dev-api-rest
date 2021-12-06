@@ -175,6 +175,7 @@ O sistema tem a seguinte organização:
       * **./\*.controller.ts**: Definições de endpoints
       * **./\*.service.ts**: Regras de negócio 
       * **./\*.\*.e2e-spec.ts**: Testes end-to-end
+      * **./\*.\*.spec.ts**: Testes unitários
 
   * **./pipes**: Onde definimos pipes de validação e transformação
 
