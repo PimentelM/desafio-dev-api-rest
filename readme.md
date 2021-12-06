@@ -152,7 +152,7 @@ A cobertura dos testes não é 100% e nem cobre todos os casos possíveis, o int
 
 Os testes podem ser encontrados ao lado de seus respectivos controllers // serviços, tendo a seguinte convenção de nomeclatura:
 
-`.e2e.ts`: Testes de caso de uso end-2-end
+`.e2e.ts`: Testes que testam todas as camadas do sistema ( requer instânciamento de um banco de dados )
 
 `.spec.ts`: Testes unitários ( branch: unit_test_example )
 
