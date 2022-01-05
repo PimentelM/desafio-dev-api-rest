@@ -1,5 +1,5 @@
 export let configs = {
-    app: {
-        database: process.env.DB_CONN
-    }
-}
+  app: {
+    database: process.env.DB_CONN,
+  },
+};

@@ -1,15 +1,12 @@
-import {Connection} from "mongoose";
-import adicionarPessoa from "./adicionarPessoa"
+import { Connection } from 'mongoose';
+import adicionarPessoa from './adicionarPessoa';
 
 export interface MongoMigration {
-    name: string;
-    condition?: (db : Connection) => Promise<boolean>;
-    execute: (db: Connection) => Promise<boolean>;
+  name: string;
+  condition?: (db: Connection) => Promise<boolean>;
+  execute: (db: Connection) => Promise<boolean>;
 }
 
+let migrations: MongoMigration[] = [adicionarPessoa];
 
-let migrations : MongoMigration[] = [
-    adicionarPessoa
-]
-
-export default migrations
+export default migrations;

@@ -1,5 +1,5 @@
-import {Schema} from "mongoose";
-import {ModelDefinition} from "./index";
+import { Schema } from 'mongoose';
+import { ModelDefinition } from './index';
 
 /*
    O campo idTransacao foi removido em detrimento do _id, presente em todos os registros do MongoDb
@@ -7,16 +7,16 @@ import {ModelDefinition} from "./index";
  */
 
 let model: ModelDefinition = {
-    name: "Transacao",
-    schema: {
-        conta: {ref: "Conta", type: Schema.Types.ObjectId},
-        valor: {type: Number, required: true},
-        dataTransacao: {
-            type: Date,
-            required: true,
-            default: Date.now /* Função para ser executada em tempo de execução */
-        },
-    }
-}
+  name: 'Transacao',
+  schema: {
+    conta: { ref: 'Conta', type: Schema.Types.ObjectId },
+    valor: { type: Number, required: true },
+    dataTransacao: {
+      type: Date,
+      required: true,
+      default: Date.now /* Função para ser executada em tempo de execução */,
+    },
+  },
+};
 
-export default model
+export default model;
